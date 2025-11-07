@@ -1,4 +1,5 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { getScoreFromDB, setScoreInDB } from "./scripts/supabase-handler"
 
 interface ButtonProps {
   score: number,
@@ -7,7 +8,7 @@ interface ButtonProps {
 
 interface ScoreCounterProps {
   rafaScore: number,
-  elizabethScore: number,
+  elizabethScore: number
 }
 
 const ElizabethsButton = ({ score, setScore }: ButtonProps) => {
@@ -18,9 +19,14 @@ const ElizabethsButton = ({ score, setScore }: ButtonProps) => {
         style={{
           transition: "all 0s"
         }}
-        onMouseUp={() => setScore(score + 1)}
+        onMouseUp={() => {
+          const newScore = score + 1
+
+          setScoreInDB("elizabeth", newScore)
+          setScore(newScore)
+        }}
       >
-        <img src="/public/eli.png" className="w-50" />
+        <img src="/eli.png" className="w-50" />
       </button>
     </div>
   )
@@ -34,9 +40,14 @@ const RafasButton = ({ score, setScore }: ButtonProps) => {
         style={{
           transition: "all 0s ease"
         }}
-        onMouseUp={() => setScore(score + 1)}
+        onMouseUp={() => {
+          const newScore = score + 1
+
+          setScoreInDB("rafael", newScore)
+          setScore(newScore)
+        }}
       >
-        <img src="/public/rafa.png" className="w-50" />
+        <img src="/rafa.png" className="w-50" />
       </button>
     </div>
   )
@@ -47,11 +58,11 @@ const ScoreCounter = ({ rafaScore, elizabethScore }: ScoreCounterProps) => {
     if (rafaScore == 0 && elizabethScore == 0) {
       return "#NOMOVIES #LOCKED IN"
     } else if (rafaScore == elizabethScore) {
-      return "It is a tie :/"
+      return "It is a tie :0"
     } else if (rafaScore > elizabethScore) {
-      return "Rafa is winning!"
+      return "Rafa is losing!"
     } else {
-      return "Elizabeth is winning!"
+      return "Elizabeth is losing!"
     }
   }
 
@@ -66,7 +77,7 @@ const ScoreCounter = ({ rafaScore, elizabethScore }: ScoreCounterProps) => {
         </div>
         <p className="font-pixel mx-4 w-20 text-center text-gray-600">ELIZABETH</p>
       </div>
-      <p className="font-pixel text-gray-400 mt-4">{scoreMessage()}</p>
+      <p className="font-pixel text-gray-400 mt-4">{scoreMessage().toUpperCase()}</p>
     </div>
   )
 }
@@ -75,9 +86,16 @@ const App = () => {
   const [rafaScore, setRafaScore] = useState(0)
   const [elizabethScore, setElizabethScore] = useState(0)
 
+  useEffect(() => {
+    getScoreFromDB("rafael")
+      .then((score) => setRafaScore(score))
+    getScoreFromDB("elizabeth")
+      .then((score) => setElizabethScore(score))
+  }, [setRafaScore, setElizabethScore])
+
   return (
     /* Used to center the app's main container */
-    <div className="w-screen h-screen flex flex-col items-center justify-center">
+    <div className="h-screen flex flex-col items-center justify-center">
       {/* Contains app items */}
       <div className="flex flex-col items-center gap-10 w-min h-min">
         <ElizabethsButton

@@ -4,3 +4,11 @@
 @theme {
   --font-pixel: "Tiny5", sans-serif;
 }
+
+/* Ensure, under all circumstances, that there is NO scrollable whitespace! */
+#root,
+html,
+body {
+  min-width: 100vw;
+  min-height: 100vh;
+}
