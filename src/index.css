@@ -5,10 +5,15 @@
   --font-pixel: "Tiny5", sans-serif;
 }
 
-/* Ensure, under all circumstances, that there is NO scrollable whitespace! */
-#root,
 html,
-body {
-  min-width: 100vw;
+body,
+#root {
+  /* Ensures content isn't trimmed off horizontally */
+  min-width: fit-content;
+
+  /* Ensures stuff is always vertically centered */
   min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
