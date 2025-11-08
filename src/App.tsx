@@ -17,7 +17,8 @@ const ElizabethsButton = ({ score, setScore }: ButtonProps) => {
       <button
         className="bg-red-500 p-4 aspect-square w-40 rounded-3xl shadow-[0px_10px_0px_rgba(134,24,29,1)] active:shadow-[0px_0px_0px_rgba(134,24,29,1)] active:translate-y-3 flex items-center justify-center cursor-pointer"
         style={{
-          transition: "all 0s"
+          transition: "all 0s",
+          imageRendering: "pixelated"
         }}
         onMouseUp={() => {
           const newScore = score + 1
@@ -26,7 +27,7 @@ const ElizabethsButton = ({ score, setScore }: ButtonProps) => {
           setScore(newScore)
         }}
       >
-        <img src="/eli.png" className="w-50" />
+        <img src="/eli.png" className="w-50 pixelated" />
       </button>
     </div>
   )
@@ -38,7 +39,8 @@ const RafasButton = ({ score, setScore }: ButtonProps) => {
       <button
         className="bg-slate-500 p-4 aspect-square w-40 rounded-3xl shadow-[0px_10px_0px_rgba(67,79,97,1)] active:shadow-[0px_0px_0px_rgba(67,79,97,1)] active:translate-y-3 flex items-center justify-center cursor-pointer"
         style={{
-          transition: "all 0s ease"
+          transition: "all 0s ease",
+          imageRendering: "pixelated"
         }}
         onMouseUp={() => {
           const newScore = score + 1
